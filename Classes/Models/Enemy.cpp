@@ -140,12 +140,14 @@ void Enemy::enemyAttack001Init(Enemy * attacker,int atkNumber)
     // Functions used to add new attacks and so on will probably be added later.
     auto atkpart1 = [=](Model * atk,Model * def)->void
     {
-        atk->modelNodes->runAction(CCScaleTo::create(1.0, 2));
-        atk->modelNodes->runAction(CCSequence::create(CCJumpTo::create(1.0, def->getCenter(),250,1),
+        atk->animationManager->runAnimationsForSequenceNamed("Ready 12 Jump");
+        CCFiniteTimeAction* jump = CCSpawn::createWithTwoActions(CCScaleTo::create(1.0f, 2),CCJumpTo::create(1.0f, ccp(def->getCenter().x+200,def->getCenter().y+70),250,1));
+        atk->modelNodes->runAction(CCSequence::create(CCSequence::create(CCMoveBy::create(0.2, ccp(1,0)),jump),
                                                       CCCallFunc::create(tempAttack,callfunc_selector(Attack::runNextPart))));
     };
     auto atkpart2 = [=](Model * atk,Model * def)->void
     {
+        atk->animationManager->runAnimationsForSequenceNamed("Strike 12 Jump");
         atk->modelNodes->runAction(CCSequence::create(CCMoveBy::create(0.2, ccp(-1,-2)),
                                                       CCCallFunc::create(tempAttack,callfunc_selector(Attack::runNextPart))));
     };
@@ -160,6 +162,7 @@ void Enemy::enemyAttack001Init(Enemy * attacker,int atkNumber)
     auto atkpart4 = [=](Model * atk,Model * def)->void
     {
         // This function moves the player back again
+        atk->animationManager->runAnimationsForSequenceNamed("Back 12 Jump");
         CCFiniteTimeAction* moveBack = CCMoveTo::create(1.5, ccp(attacker->getX(),attacker->getY()));
         CCFiniteTimeAction* actionMoveDone =
         CCCallFuncN::create( attacker,
@@ -199,7 +202,7 @@ void Enemy::enemyAttack002Init(Enemy * attacker, int atkNumber)
     };
     auto atkpart3 = [=](Model * atk,Model * def)->void
     {
-        attacker->dealDamage(attacker->baseDmg+3*attacker->dmgStat+(rand()%attacker->variantDmg+1*attacker->dmgStat));
+        attacker->dealDamage(attacker->baseDmg+3*attacker->dmgStat+rand()%(attacker->variantDmg+2*attacker->dmgStat));
         // This function slashes the enemy
         atk->modelNodes->runAction(CCSequence::create(CCMoveBy::create(1.0, ccp(10,0)),
                                                       CCCallFunc::create(tempAttack,
