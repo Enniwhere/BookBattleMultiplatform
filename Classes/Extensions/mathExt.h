@@ -17,12 +17,12 @@ using namespace cocos2d;
 class mathExt
 {
 public:
-    static CCPoint * pointAdd(CCPoint * A, CCPoint * B);
-    static CCPoint * pointSub(CCPoint * A, CCPoint * B);
-    static float pointDist(CCPoint * A, CCPoint * B);
-    static float dotProduct(CCPoint * A, CCPoint * B);
-    static float crossProductMagnitude(CCPoint * A, CCPoint * B);
-    static float angleFromAtoB(CCPoint * A, CCPoint * B);
+    static cocos2d::Point * pointAdd(cocos2d::Point * A, cocos2d::Point * B);
+    static cocos2d::Point * pointSub(cocos2d::Point * A, cocos2d::Point * B);
+    static float pointDist(cocos2d::Point * A, cocos2d::Point * B);
+    static float dotProduct(cocos2d::Point * A, cocos2d::Point * B);
+    static float crossProductMagnitude(cocos2d::Point * A, cocos2d::Point * B);
+    static float angleFromAtoB(cocos2d::Point * A, cocos2d::Point * B);
 };
 
 #endif /* defined(__BookBattleAlpha__mathExt__) */

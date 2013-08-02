@@ -77,21 +77,21 @@ bool MainScene::init()
                                                           "CloseSelected.png",
                                                           this,
                                                           menu_selector(MainScene::menuCloseCallback) );
-    pCloseItem->setPosition( ccp(CCDirector::sharedDirector()->getWinSize().width - 20, 20) );
+    pCloseItem->setPosition( Point(CCDirector::sharedDirector()->getWinSize().width - 20, 20) );
     
     CCMenuItemImage *pLoadItem = CCMenuItemImage::create(
                                                           "loadIcon.png",
                                                           "loadIcon.png",
                                                           this,
                                                           menu_selector(MainScene::openLoadMenu) );
-    pLoadItem->setPosition( ccp(CCDirector::sharedDirector()->getWinSize().width - 80, 20) );
+    pLoadItem->setPosition( Point(CCDirector::sharedDirector()->getWinSize().width - 80, 20) );
     
     CCMenuItemImage *pSaveItem = CCMenuItemImage::create(
                                                           "saveIcon.jpg",
                                                           "saveIcon.jpg",
                                                           this,
                                                           menu_selector(MainScene::openSaveMenu) );
-    pSaveItem->setPosition( ccp(CCDirector::sharedDirector()->getWinSize().width - 140, 20) );
+    pSaveItem->setPosition( Point(CCDirector::sharedDirector()->getWinSize().width - 140, 20) );
     
     // create menu, it's an autorelease object
     CCMenu* pMenu = CCMenu::create(pCloseItem,pLoadItem,pSaveItem, NULL);
@@ -117,7 +117,7 @@ bool MainScene::init()
         << "Defence stat: " << player->getDefStat();//add number to the stream
     
     CCLabelTTF * statLabel = CCLabelTTF::create(ss.str().c_str(),"Thonburi",24);
-    statLabel->setPosition(ccp(300, 300));
+    statLabel->setPosition(Point(300, 300));
     //this->addChild(statLabel,3);
     
     // add a label shows "Hello World"
@@ -129,8 +129,8 @@ bool MainScene::init()
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     
     // position the label on the center of the screen
-    pLabel->setPosition( ccp(size.width / 2, size.height - 20) );
-    //pLabel2->setPosition( ccp(size.width / 2, size.height - 60) );
+    pLabel->setPosition( Point(size.width / 2, size.height - 20) );
+    //pLabel2->setPosition( Point(size.width / 2, size.height - 60) );
     
     // add the label as a child to this layer
     this->addChild(pLabel, 1);
@@ -140,7 +140,7 @@ bool MainScene::init()
     CCSprite* background = CCSprite::create("forest-scene3.jpg");
     
     // position the sprite on the center of the screen
-    background->setPosition( ccp(size.width/2, size.height/2) );
+    background->setPosition( Point(size.width/2, size.height/2) );
     background->setScale(1.3f);
     
     // add the sprite as a child to this layer

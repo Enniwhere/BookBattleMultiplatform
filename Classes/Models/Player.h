@@ -9,9 +9,8 @@
 #ifndef __BookBattle__Player__
 #define __BookBattle__Player__
 
-#include <iostream>
-#include <map>
-#include "Attack.h"
+
+#include "Model.h"
 #include "CCBAnimationManager.h"
 #include "SwordSlashLayer.h"
 
@@ -22,7 +21,7 @@ private:
     SwordSlashLayer * slashLayer = NULL;
 
 public:
-    std::map<int, Attack> attackMap;
+    std::map<int, std::function<void(Model*,Model*)>> attackMap;
     Player(int a, int b);
     ~Player(){};
     
@@ -32,7 +31,7 @@ public:
     void initAttacks();
 
     void attack();
-    void ccTouchesEnded(CCSet* touches, CCEvent* event);
+    void ccTouchesEnded(Set* touches, Event* event);
 
     
     void checkLevelUp();
@@ -44,8 +43,8 @@ public:
 
     void defaultHitAnimation(){slashLayer->slash();}
     
-    static void playerAttack001Init(Player * attacker,int atkNumber);
-    static void playerAttack002Init(Player * attacker,int atkNumber);
+    static std::function<void(Model*,Model*)> playerAttack001Init(std::function<int(Model*)> dmgFunc, float scaleFactor);
+    static std::function<void(Model*,Model*)> playerAttack002Init(std::function<int(Model*)> dmgFunc, float scaleFactor);
     
     static const std::string& getXMLFilePath();
     static void initXMLFilePath();

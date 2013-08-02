@@ -10,32 +10,32 @@
 #include <math.h>
 #define _USE_MATH_DEFINES
 
-CCPoint * mathExt::pointAdd(CCPoint * A,CCPoint * B)
+cocos2d::Point * mathExt::pointAdd(cocos2d::Point * A,cocos2d::Point * B)
 {
-    return new CCPoint(A->x+B->x,A->y+B->y);
+    return new cocos2d::Point(A->x+B->x,A->y+B->y);
 }
 
-CCPoint * mathExt::pointSub(CCPoint * A,CCPoint * B)
+cocos2d::Point * mathExt::pointSub(cocos2d::Point * A,cocos2d::Point * B)
 {
-    return new CCPoint(A->x-B->x,A->y-B->y);
+    return new cocos2d::Point(A->x-B->x,A->y-B->y);
 }
 
-float mathExt::pointDist(CCPoint * A, CCPoint * B)
+float mathExt::pointDist(cocos2d::Point * A, cocos2d::Point * B)
 {
     return sqrt(pow(A->x - B->x, 2) + pow(A->y - B->y, 2));
 }
 
-float mathExt::dotProduct(CCPoint * A, CCPoint * B)
+float mathExt::dotProduct(cocos2d::Point * A, cocos2d::Point * B)
 {
     return (A->x * B->x + A->y * B->y);
 }
 
-float mathExt::crossProductMagnitude(CCPoint * A, CCPoint * B)
+float mathExt::crossProductMagnitude(cocos2d::Point * A, cocos2d::Point * B)
 {
     return (A->x * B->y - A->y * B->x);
 }
 
-float mathExt::angleFromAtoB(CCPoint * A, CCPoint * B)
+float mathExt::angleFromAtoB(cocos2d::Point * A, cocos2d::Point * B)
 {
     return atan2f(crossProductMagnitude(A, B),dotProduct(A, B))*180/M_PI;
 }

@@ -11,6 +11,7 @@
 
 
 #include <iostream>
+#include <map>
 #include "mathExt.h"
 #include "cocos2d.h"
 #include "CCBAnimationManager.h"
@@ -18,7 +19,7 @@
 using namespace cocos2d;
 using namespace cocos2d::extension;
 
-class Model : public CCLayer
+class Model : public Layer
 {
 protected :
     
@@ -34,12 +35,12 @@ protected :
     int variantDmg = 20;
     int x,y = 0;
     
-    CCLabelTTF * healthStatus = CCLabelTTF::create("Ikke skadet", "Thonburi", 34);
+    LabelTTF * healthStatus = LabelTTF::create("Ikke skadet", "Thonburi", 34);
     Model * opponent = NULL;
     
 public :
     cocos2d::extension::CCBAnimationManager *animationManager = NULL;
-    CCNode* modelNodes = new CCNode;
+    Node* modelNodes = new Node;
     
     Model(int x, int y);
     ~Model();
@@ -77,7 +78,7 @@ public :
     virtual void healDamage(int dmg);
     virtual void gainXp(int xp);
     virtual void die(){}
-    CCPoint getCenter();
+    cocos2d::Point getCenter();
     virtual void defaultHitAnimation(){}
     virtual void updateHealthStatus();
 };

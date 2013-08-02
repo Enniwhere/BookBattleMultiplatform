@@ -9,8 +9,7 @@
 #ifndef __BookBattle__Enemy__
 #define __BookBattle__Enemy__
 
-#include <iostream>
-#include "Attack.h"
+#include "Model.h"
 
 
 class Enemy : public Model
@@ -18,7 +17,7 @@ class Enemy : public Model
 private:
     
     Model * player = NULL;
-    std::map<int, Attack> attackMap;
+    std::map<int, std::function<void(Model*,Model*)>> attackMap;
     int xpReward = 1100;
     
 public:
@@ -35,8 +34,8 @@ public:
 
     void die();
     
-    static void enemyAttack001Init(Enemy * attacker,int atkNumber);
-    static void enemyAttack002Init(Enemy * attacker,int atkNumber);
+    //static void enemyAttack001Init(Enemy * attacker,int atkNumber);
+    //static void enemyAttack002Init(Enemy * attacker,int atkNumber);
     
 };
 

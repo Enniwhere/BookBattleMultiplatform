@@ -41,11 +41,11 @@ void Model::takeDamage(int dmg)
     ss << dmg;//add number to the stream
     
     CCLabelTTF * dmgLabel = CCLabelTTF::create(ss.str().c_str(), "Thonburi", 40);
-    dmgLabel->setColor(ccc3(255,0,0));
-    dmgLabel->setPosition(ccp(x, y+120));
+    dmgLabel->setColor(Color3B(255,0,0));
+    dmgLabel->setPosition(Point(x, y+120));
     this->addChild(dmgLabel,2);
-    dmgLabel->runAction(CCMoveBy::create(1.0, ccp(0,80)));
-    dmgLabel->runAction(CCFadeOut::create(1.0));
+    dmgLabel->runAction(MoveBy::create(1.0, Point(0,80)));
+    dmgLabel->runAction(FadeOut::create(1.0));
     
     updateHealthStatus();
 }
@@ -89,37 +89,37 @@ void Model::updateHealthStatus()
     if(hp > hpStat*20/100*90)
     {
         healthStatus->setString("Ikke skadet");
-        healthStatus->setColor(ccc3(0,255,0));
+        healthStatus->setColor(Color3B(0,255,0));
     }
     else if(hp > hpStat*20/100*70)
     {
         healthStatus->setString("Lidt skadet");
-        healthStatus->setColor(ccc3(120, 255, 0));
+        healthStatus->setColor(Color3B(120, 255, 0));
     }
     else if(hp > hpStat*20/100*50)
     {
         healthStatus->setString("Skadet");
-        healthStatus->setColor(ccc3(255, 255, 0));
+        healthStatus->setColor(Color3B(255, 255, 0));
     }
     else if(hp > hpStat*20/100*20)
     {
         healthStatus->setString("Meget skadet");
-        healthStatus->setColor(ccc3(255, 120, 0));
+        healthStatus->setColor(Color3B(255, 120, 0));
     }
     else if(hp > 0)
     {
         healthStatus->setString("Nær død");
-        healthStatus->setColor(ccc3(255, 0, 0));
+        healthStatus->setColor(Color3B(255, 0, 0));
     }
     else if(hp == 0)
     {
         healthStatus->setString("Død");
-        healthStatus->setColor(ccc3(255, 0, 0));
+        healthStatus->setColor(Color3B(255, 0, 0));
     }
 }
 
 
-CCPoint Model::getCenter()
+Point Model::getCenter()
 {
     return modelNodes->getPosition();
 }

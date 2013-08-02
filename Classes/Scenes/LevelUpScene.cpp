@@ -15,10 +15,10 @@
 
 using namespace cocos2d;
 
-CCScene* LevelUpScene::scene()
+Scene* LevelUpScene::scene()
 {
     // 'scene' is an autorelease object
-    CCScene *scene = CCScene::create();
+    Scene *scene = Scene::create();
     
     // 'layer' is an autorelease object
     LevelUpScene *layer = LevelUpScene::create();
@@ -36,47 +36,47 @@ bool LevelUpScene::init()
 {
     //////////////////////////////
     // 1. super init first
-    if ( !CCLayer::init() )
+    if ( !Layer::init() )
     {
         return false;
     }
     
     std::ostringstream oss;
     oss << statPoints;
-    CCLabelTTF* pLabel = CCLabelTTF::create("Level UP!", "Thonburi", 100);
-    //CCLabelTTF* pLabel2 = CCLabelTTF::create("How are you feeling?", "Thonburi", 24);
+    LabelTTF* pLabel = LabelTTF::create("Level UP!", "Thonburi", 100);
+    //LabelTTF* pLabel2 = LabelTTF::create("How are you feeling?", "Thonburi", 24);
     std::string labelText = "Stat points: " + oss.str();
-    statPointsLabel = CCLabelTTF::create(labelText.c_str(), "Thonburi", 40);
+    statPointsLabel = LabelTTF::create(labelText.c_str(), "Thonburi", 40);
     
     // ask director the window size
-    CCSize size = CCDirector::sharedDirector()->getWinSize();
+    Size size = Director::getInstance()->getWinSize();
     
     // position the label on the center of the screen
-    pLabel->setPosition( ccp(size.width / 2, size.height-40) );
-    statPointsLabel->setPosition( ccp(size.width/2,size.height/2));
-    //pLabel2->setPosition( ccp(size.width / 2, size.height - 60) );
+    pLabel->setPosition( Point(size.width / 2, size.height-40) );
+    statPointsLabel->setPosition( Point(size.width/2,size.height/2));
+    //pLabel2->setPosition( Point(size.width / 2, size.height - 60) );
     
     // add the label as a child to the scene
     this->addChild(pLabel, 2);
     this->addChild(statPointsLabel);
     this->setTouchEnabled(true);
-    CCMenuItemImage *atkStatIcon = CCMenuItemImage::create("atkStatIcon.jpeg",
-                                                           "atkStatIcon.jpeg",
-                                                          this,
-                                                          menu_selector(LevelUpScene::incAtkStat) );
-    CCMenuItemImage *dmgStatIcon = CCMenuItemImage::create("dmgStatIcon.png",
+    const ccMenuCallback atkStatCallback = [=] (Object* obj)->void {this->incAtkStat();};
+    MenuItemImage *atkStatIcon = MenuItemImage::create("atkStatIcon.jpeg",
+                                                       "atkStatIcon.jpeg",
+                                                       atkStatCallback);
+    const ccMenuCallback dmgStatCallback = [=] (Object* obj)->void {this->incDmgStat();};
+    MenuItemImage *dmgStatIcon = MenuItemImage::create("dmgStatIcon.png",
                                                            "dmgStatIcon.png",
-                                                           this,
-                                                           menu_selector(LevelUpScene::incDmgStat));
-    CCMenuItemImage *defStatIcon = CCMenuItemImage::create("defStatIcon.png",
+                                                           dmgStatCallback);
+    const ccMenuCallback defStatCallback = [=] (Object* obj)->void {this->incDefStat();};
+    MenuItemImage *defStatIcon = MenuItemImage::create("defStatIcon.png",
                                                            "defStatIcon.png",
-                                                           this,
-                                                           menu_selector(LevelUpScene::incDefStat) );
-    CCMenuItemImage *hpStatIcon = CCMenuItemImage::create("hpStatIcon.png",
+                                                           defStatCallback);
+    const ccMenuCallback hpStatCallback = [=] (Object* obj)->void {this->incHpStat();};
+    MenuItemImage *hpStatIcon = MenuItemImage::create("hpStatIcon.png",
                                                           "hpStatIcon.png",
-                                                           this,
-                                                           menu_selector(LevelUpScene::incHpStat) );
-    CCMenu* statMenu = CCMenu::create(atkStatIcon,dmgStatIcon,defStatIcon,hpStatIcon,NULL);
+                                                           hpStatCallback);
+    Menu* statMenu = Menu::create(atkStatIcon,dmgStatIcon,defStatIcon,hpStatIcon,NULL);
     statMenu->alignItemsHorizontallyWithPadding(40.0f);
     statMenu->setPosition(size.width/2, 100);
     this->addChild(statMenu, 2);
@@ -124,5 +124,5 @@ void LevelUpScene::updateStatPoints()
 void LevelUpScene::endLevelUp()
 {
     FileIO::savePlayer("player1.xml");
-    CCDirector::sharedDirector()->popToRootScene();
+    Director::getInstance()->popToRootScene();
 }

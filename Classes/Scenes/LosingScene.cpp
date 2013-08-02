@@ -46,8 +46,8 @@ bool LosingScene::init()
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     
     // position the label on the center of the screen
-    pLabel->setPosition( ccp(size.width / 2, size.height / 2) );
-    //pLabel2->setPosition( ccp(size.width / 2, size.height - 60) );
+    pLabel->setPosition( Point(size.width / 2, size.height / 2) );
+    //pLabel2->setPosition( Point(size.width / 2, size.height - 60) );
     
     // add the label as a child to the scene
     this->addChild(pLabel, 2);

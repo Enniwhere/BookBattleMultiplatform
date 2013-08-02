@@ -44,7 +44,7 @@ bool CombatScene::init()
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     
     // position the label on the center of the screen
-    background->setPosition( ccp(size.width / 2, size.height / 2) );
+    background->setPosition( Point(size.width / 2, size.height / 2) );
     background->setScale(0.4);
     this->addChild(background, 0);
     

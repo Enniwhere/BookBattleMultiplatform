@@ -42,7 +42,7 @@ Player* Player::getPlayer(void)
 {
     if (!s_CurrentPlayer)
     {
-        CCSize size = CCDirector::sharedDirector()->getWinSize();
+        Size size = Director::getInstance()->getWinSize();
         s_CurrentPlayer = new Player(size.width*0.20f,size.height*0.15f);
     }
     
@@ -52,9 +52,9 @@ Player* Player::getPlayer(void)
 // Constructor for the player. The layer is initialized in Model's constructor.
 Player::Player(int x, int y) : Model(x,y)
 {
-    // Create a default CCNodeLoaderLibrary. 
-    CCNodeLoaderLibrary* nodeLoaderLibrary;
-    nodeLoaderLibrary = CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
+    // Create a default NodeLoaderLibrary. 
+    NodeLoaderLibrary* nodeLoaderLibrary;
+    nodeLoaderLibrary = NodeLoaderLibrary::newDefaultNodeLoaderLibrary();
     
     // Create a new CCBReader with a default CCNodeLoaderLibrary
     // This can take a lot of parameters to use code connections and more
@@ -65,9 +65,9 @@ Player::Player(int x, int y) : Model(x,y)
     
     // Get the animationmanager so we can animate the thing afterwards
     animationManager = ccbReader->getAnimationManager();
-    modelNodes->setPosition( ccp(x, y));
+    modelNodes->setPosition( Point(x, y));
     this->addChild(modelNodes,1); // Add the loaded node to the scene (this)
-    this->healthStatus->setPosition( ccp(x+500,y+100));
+    this->healthStatus->setPosition( Point(x+500,y+100));
     this->addChild(healthStatus);
     this->setBaseDmg(40);
     
@@ -89,21 +89,22 @@ void Player::attack()
 {
 
     int attackNumber = getAttackNumber();
-    std::map<int,Attack>::iterator it = attackMap.find(attackNumber);
+    std::map<int,std::function<void(Model*,Model*)>>::iterator it = attackMap.find(attackNumber);
     
     if(it != attackMap.end())
     {
         //element found;
         this->setTouchEnabled(false);
-        attackMap[attackNumber].attack(this, opponent);
+        attackMap[attackNumber](this,opponent);
     }
 }
 
 void Player::initAttacks()
 {
-    Player::playerAttack001Init(this,3);
-    Player::playerAttack002Init(this,4);
-        
+    const std::function<int(Model*)> dmgFunc3 = [] (Model* atk)->int {return atk->getBaseDmg()+1*atk->getDmgStat()+(rand()%2*atk->getVariantDmg()+2*atk->getDmgStat());};
+    attackMap[3] = Player::playerAttack001Init(dmgFunc3,0.35f);
+    const std::function<int(Model*)> dmgFunc4 = [] (Model* atk)->int {return atk->getBaseDmg()+3*atk->getDmgStat()+(rand()%atk->getVariantDmg()+atk->getDmgStat());};
+    attackMap[4] = Player::playerAttack002Init(dmgFunc4,0.35f);
 }
 
 void Player::takeTurn()
@@ -124,15 +125,15 @@ void Player::checkLevelUp()
     {
         this->level = this->xp/1000;
         // initialize director
-        CCDirector *pDirector = CCDirector::sharedDirector();
+        Director *pDirector = Director::getInstance();
         
         // create a scene. it's an autorelease object
-        CCScene *pScene = LevelUpScene::scene();
+        Scene *pScene = LevelUpScene::scene();
         
         pDirector->pushScene(pScene);
     }
     else{
-        CCDirector::sharedDirector()->popToRootScene();
+        Director::getInstance()->popToRootScene();
     }
 }
 
@@ -142,7 +143,7 @@ void Player::endTurn()
     opponent->takeTurn();
 }
 
-void Player::ccTouchesEnded(CCSet* touches, CCEvent* event)
+void Player::ccTouchesEnded(Set* touches, Event* event)
 {
     if (enemyIsHit())
     {
@@ -153,7 +154,7 @@ void Player::ccTouchesEnded(CCSet* touches, CCEvent* event)
 
 bool Player::enemyIsHit()
 {
-    CCPoint* slashPoints = slashLayer->currentSlash();
+    Point* slashPoints = slashLayer->currentSlash();
     
     // If the two end-points of the slash are too close, it was probably a mistake.
     // In any case it was a puny slash not worthy of the ninja.
@@ -162,7 +163,7 @@ bool Player::enemyIsHit()
         return false;
     }
     
-    CCPoint enemyCenter = opponent->getCenter();
+    Point enemyCenter = opponent->getCenter();
     // Check to see if the attack is inside the enemy. The enemy is currently a circle of radius 150.
     // Fuck that circle up.
     for (int i = 0; i < 5; i++)
@@ -182,8 +183,8 @@ bool Player::enemyIsHit()
 int Player::getAttackNumber()
 {
     
-    CCPoint* slashPoints = slashLayer->currentSlash();
-    float angle = mathExt::angleFromAtoB( new CCPoint(1,0), mathExt::pointSub(&(slashPoints[4]), &(slashPoints[0])));
+    Point* slashPoints = slashLayer->currentSlash();
+    float angle = mathExt::angleFromAtoB( new Point(1,0), mathExt::pointSub(&(slashPoints[4]), &(slashPoints[0])));
 
     if (angle <= -180*15/16 || angle >= 180*15/16)
     {
@@ -202,10 +203,10 @@ int Player::getAttackNumber()
 void Player::die()
 {
     // initialize director
-    CCDirector *pDirector = CCDirector::sharedDirector();
+    Director *pDirector = Director::getInstance();
     
     // create a scene. it's an autorelease object
-    CCScene *pScene = LosingScene::scene();
+    Scene *pScene = LosingScene::scene();
     
     pDirector->pushScene(pScene);
     //delete enemy;
@@ -235,103 +236,91 @@ const std::string& Player::getXMLFilePath()
     return saveFilePath;
 }
 
-void Player::playerAttack001Init(Player * attacker,int atkNumber)
+std::function<void(Model*,Model*)> Player::playerAttack001Init(std::function<int(Model*)> dmgFunc, float scaleFactor)
 {
-    attacker->attackMap[atkNumber] = Attack();
-    Attack* tempAttack = &attacker->attackMap[atkNumber];
     
-    // This function is used to initialize all attacks used by the player.
-    // Functions used to add new attacks and so on will probably be added later.
-    auto atkpart1 = [=](Model * atk,Model * def)->void
-    {
-        atk->modelNodes->runAction(CCScaleTo::create(1.0, 0.35));
-        atk->modelNodes->runAction(CCSequence::create(CCJumpTo::create(1.0, def->getCenter(),250,1),
-                                                      CCCallFunc::create(tempAttack,callfunc_selector(Attack::runNextPart))));
-    };
-    auto atkpart2 = [=](Model * atk,Model * def)->void
-    {
-        atk->modelNodes->runAction(CCSequence::create(CCMoveBy::create(0.2, ccp(1,2)),
-                                                      CCCallFunc::create(tempAttack,callfunc_selector(Attack::runNextPart))));
-    };
-    auto atkpart3 = [=](Model * atk,Model * def)->void
-    {
-        attacker->slashLayer->slash();
-        attacker->dealDamage(attacker->getBaseDmg()+2*attacker->getDmgStat()+(rand()%attacker->getVariantDmg()+5*attacker->getDmgStat()));
-        // This function slashes the enemy
-        atk->modelNodes->runAction(CCSequence::create(CCMoveBy::create(1.0, ccp(10,20)),
-                                                      CCCallFunc::create(tempAttack,callfunc_selector(Attack::runNextPart))));
-        
-    };
     auto atkpart4 = [=](Model * atk,Model * def)->void
     {
         // This function moves the player back again
-        CCFiniteTimeAction* moveBack = CCMoveTo::create(1.5, ccp(attacker->getX(),attacker->getY()));
-        CCFiniteTimeAction* actionMoveDone =
-        CCCallFuncN::create( attacker,
-                            callfuncN_selector(Model::endTurn));
-        atk->modelNodes->runAction(CCScaleBy::create(1.5, 1/0.35));
-        // Reset the attack
-        tempAttack->resetAttack();
+        atk->animationManager->runAnimationsForSequenceNamed("Back 12 Jump");
+        FiniteTimeAction* moveBack = MoveTo::create(1.5, Point(atk->getX(),atk->getY()));
+        const std::function<void()> callback = [=] ()->void {atk->endTurn();};
+
+        atk->modelNodes->runAction(ScaleBy::create(1.5, 1/scaleFactor));
         // Run the sequence of animations
-        atk->modelNodes->runAction(CCSequence::create(moveBack,actionMoveDone));
+        atk->modelNodes->runAction(Sequence::create(moveBack,CallFunc::create( callback ), NULL));
     };
-    tempAttack->attackVector.clear();
-    tempAttack->attackVector.push_back(atkpart1);
-    tempAttack->attackVector.push_back(atkpart2);
-    tempAttack->attackVector.push_back(atkpart3);
-    tempAttack->attackVector.push_back(atkpart4);
+    auto atkpart3 = [=](Model * atk,Model * def)->void
+    {
+        atk->defaultHitAnimation();
+        atk->dealDamage(dmgFunc(atk));
+        // This function slashes the enemy
+        const std::function<void()> callback = [=] ()->void {atkpart4(atk,def);};
+        atk->modelNodes->runAction(Sequence::create(MoveBy::create(1.0, Point(10,20)),
+                                                    CallFunc::create( callback ), NULL));
+        
+    };
+    
+    auto atkpart2 = [=](Model * atk,Model * def)->void
+    {
+        atk->animationManager->runAnimationsForSequenceNamed("Strike 12 Jump");
+        const std::function<void()> callback = [=] ()->void {atkpart3(atk,def);};
+        atk->modelNodes->runAction(Sequence::create(MoveBy::create(0.2, Point(1,2)),
+                                                    CallFunc::create( callback ), NULL));
+    };
+    
+    auto atkpart1 = [=](Model * atk,Model * def)->void
+    {
+        atk->animationManager->runAnimationsForSequenceNamed("Ready 12 Jump");
+        atk->modelNodes->runAction(ScaleTo::create(1.0, scaleFactor));
+        const std::function<void()> callback = [=] ()->void {atkpart2(atk,def);};
+        atk->modelNodes->runAction(Sequence::create(JumpTo::create(1.0, def->getCenter(),250,1),
+                                                    CallFunc::create( callback ), NULL));
+    };
+    return atkpart1;
 }
 
-void Player::playerAttack002Init(Player * attacker, int atkNumber)
+std::function<void(Model*,Model*)> Player::playerAttack002Init(std::function<int(Model*)> dmgFunc, float scaleFactor)
 {
-    attacker->attackMap[atkNumber] = Attack();
-    Attack* tempAttack = &attacker->attackMap[atkNumber];
+    
+    auto atkpart4 = [=](Model * atk,Model * def)->void
+    {
+        // This function moves the player back again
+        FiniteTimeAction* moveBack = MoveTo::create(1.5, Point(atk->getX(),atk->getY()));
+        const std::function<void()> callback = [=] ()->void {atk->endTurn();};
+        atk->animationManager->runAnimationsForSequenceNamed("Back 10");
+        atk->modelNodes->runAction(ScaleBy::create(1.5, 1/scaleFactor));
+        // Run the sequence of animations
+        atk->modelNodes->runAction(Sequence::create(moveBack,CallFunc::create( callback ), NULL));
+    };
+    auto atkpart3 = [=](Model * atk,Model * def)->void
+    {
+        atk->defaultHitAnimation();
+        atk->dealDamage(dmgFunc(atk));
+        // This function slashes the enemy
+        const std::function<void()> callback = [=] ()->void {atkpart4(atk,def);};
+        atk->modelNodes->runAction(Sequence::create(MoveBy::create(1.0, Point(10,0)),
+                                                      CallFunc::create( callback ), NULL));
+        
+    };
+    auto atkpart2 = [=](Model * atk,Model * def)->void
+    {
+        atk->animationManager->runAnimationsForSequenceNamed("Strike 10");
+        // This function slashes the enemy
+        const std::function<void()> callback = [=] ()->void {atkpart3(atk,def);};
+        atk->modelNodes->runAction(Sequence::create(MoveBy::create(0.2, Point(1,0)),
+                                                    CallFunc::create( callback ),NULL));
+        
+    };
     auto atkpart1 = [=](Model * atk,Model * def)->void
     {
         //int * nextPart = new int(2);
-        atk->animationManager->runAnimationsForSequenceNamed("Ready Mid Timeline");
-        atk->modelNodes->runAction(CCScaleTo::create(1.0, 0.35));
-        atk->modelNodes->runAction(CCSequence::create(CCMoveTo::create(1.0, def->getCenter()),
-                                                      CCCallFunc::create(tempAttack,callfunc_selector(Attack::runNextPart))));
+        atk->animationManager->runAnimationsForSequenceNamed("Ready 10");
+        atk->modelNodes->runAction(ScaleTo::create(1.0, scaleFactor));
+        const std::function<void()> callback = [=] ()->void {atkpart2(atk,def);};
+        atk->modelNodes->runAction(Sequence::create(MoveTo::create(1.0, def->getCenter()),
+                                                    CallFunc::create( callback ),NULL));
         //testAttack->runPart(*nextPart);
     };
-    auto atkpart2 = [=](Model * atk,Model * def)->void
-    {
-        atk->animationManager->runAnimationsForSequenceNamed("Slash Mid Timeline");
-        // This function slashes the enemy
-        atk->modelNodes->runAction(CCSequence::create(CCMoveBy::create(0.2, ccp(1,0)),
-                                                      CCCallFunc::create(tempAttack,
-                                                      callfunc_selector(Attack::runNextPart))));
-        
-    };
-    auto atkpart3 = [=](Model * atk,Model * def)->void
-    {
-        attacker->slashLayer->slash();
-        attacker->dealDamage(attacker->baseDmg+3*attacker->dmgStat+(rand()%attacker->variantDmg+1*attacker->dmgStat));
-        // This function slashes the enemy
-        atk->modelNodes->runAction(CCSequence::create(CCMoveBy::create(1.0, ccp(10,0)),
-                                                      CCCallFunc::create(tempAttack,
-                                                      callfunc_selector(Attack::runNextPart))));
-        
-    };
-    auto atkpart4 = [=](Model * atk,Model * def)->void
-    {
-        // This function moves the player back again
-        CCFiniteTimeAction* moveBack = CCMoveTo::create(1.5, ccp(atk->getX(),atk->getY()));
-        CCFiniteTimeAction* actionMoveDone =
-        CCCallFuncN::create( attacker,
-                            callfuncN_selector(Player::endTurn));
-        atk->animationManager->runAnimationsForSequenceNamed("Back Up Mid Timeline");
-        atk->modelNodes->runAction(CCScaleBy::create(1.5, 1/0.35));
-        // Reset the attack
-        tempAttack->resetAttack();
-        // Run the sequence of animations
-        atk->modelNodes->runAction(CCSequence::create(moveBack,actionMoveDone));
-    };
-    tempAttack->attackVector.clear();
-    tempAttack->attackVector.push_back(atkpart1);
-    tempAttack->attackVector.push_back(atkpart2);
-    tempAttack->attackVector.push_back(atkpart3);
-    tempAttack->attackVector.push_back(atkpart4);
-
+    return atkpart1;
 }
