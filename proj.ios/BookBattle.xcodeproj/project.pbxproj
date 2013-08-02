@@ -365,8 +365,6 @@
 		F4C1939717AAABA0005F1F95 /* rescaler.c in Sources */ = {isa = PBXBuildFile; fileRef = F4C1908817AAABA0005F1F95 /* rescaler.c */; };
 		F4C1939817AAABA0005F1F95 /* thread.c in Sources */ = {isa = PBXBuildFile; fileRef = F4C1908A17AAABA0005F1F95 /* thread.c */; };
 		F4C1939917AAABA0005F1F95 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = F4C1908C17AAABA0005F1F95 /* utils.c */; };
-		F4C1939A17AAABA0005F1F95 /* Android.mk in Resources */ = {isa = PBXBuildFile; fileRef = F4C1909617AAABA0005F1F95 /* Android.mk */; };
-		F4C193A217AAABA0005F1F95 /* websockets.dll in Resources */ = {isa = PBXBuildFile; fileRef = F4C190B917AAABA0005F1F95 /* websockets.dll */; };
 		F4C193A417AAABA0005F1F95 /* Android.mk in Resources */ = {isa = PBXBuildFile; fileRef = F4C190BC17AAABA0005F1F95 /* Android.mk */; };
 		F4C193A517AAABA0005F1F95 /* sqlite3.dll in Resources */ = {isa = PBXBuildFile; fileRef = F4C190C217AAABA0005F1F95 /* sqlite3.dll */; };
 		F4C1A5C517AAC693005F1F95 /* CCEGLViewProtocol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4C1A20817AAC68A005F1F95 /* CCEGLViewProtocol.cpp */; };
@@ -541,23 +539,6 @@
 		F4E307B417AC1C26002A8CD6 /* TestCharBackTopTorso.png in Resources */ = {isa = PBXBuildFile; fileRef = F4E3078817AC1C26002A8CD6 /* TestCharBackTopTorso.png */; };
 		F4E307B517AC1C26002A8CD6 /* TestCharReferenceBack.png in Resources */ = {isa = PBXBuildFile; fileRef = F4E3078917AC1C26002A8CD6 /* TestCharReferenceBack.png */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		F4C193B117AAABA0005F1F95 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F4C18FFC17AAABA0005F1F95 /* chipmunk.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1A0C0E0D1777FC7400838530;
-			remoteInfo = chipmunk;
-		};
-		F4E3072417AC0ED7002A8CD6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F4E3072017AC0ED6002A8CD6 /* CocosDenshion.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D87CC2E5154FC6C500AAFE11;
-			remoteInfo = CocosDenshion;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		15A3D8891682F7D5002FB0C5 /* Box2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2D.h; sourceTree = "<group>"; };
@@ -1159,8 +1140,6 @@
 		F4C18FF517AAABA0005F1F95 /* cpSpatialIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cpSpatialIndex.h; sourceTree = "<group>"; };
 		F4C18FF617AAABA0005F1F95 /* cpVect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cpVect.h; sourceTree = "<group>"; };
 		F4C18FF717AAABA0005F1F95 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		F4C18FFB17AAABA0005F1F95 /* chipmunk-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "chipmunk-Prefix.pch"; sourceTree = "<group>"; };
-		F4C18FFC17AAABA0005F1F95 /* chipmunk.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = chipmunk.xcodeproj; sourceTree = "<group>"; };
 		F4C1901617AAABA0005F1F95 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		F4C1901817AAABA0005F1F95 /* chipmunk.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = chipmunk.c; sourceTree = "<group>"; };
 		F4C1901917AAABA0005F1F95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
@@ -1277,23 +1256,8 @@
 		F4C1909117AAABA0005F1F95 /* format_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = format_constants.h; sourceTree = "<group>"; };
 		F4C1909217AAABA0005F1F95 /* mux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mux.h; sourceTree = "<group>"; };
 		F4C1909317AAABA0005F1F95 /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
-		F4C1909617AAABA0005F1F95 /* Android.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Android.mk; sourceTree = "<group>"; };
-		F4C1909817AAABA0005F1F95 /* libwebsockets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libwebsockets.h; sourceTree = "<group>"; };
-		F4C1909B17AAABA0005F1F95 /* libwebsockets.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libwebsockets.a; sourceTree = "<group>"; };
-		F4C1909D17AAABA0005F1F95 /* libwebsockets.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libwebsockets.a; sourceTree = "<group>"; };
-		F4C1909F17AAABA0005F1F95 /* libwebsockets.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libwebsockets.a; sourceTree = "<group>"; };
 		F4C190A217AAABA0005F1F95 /* libwebsockets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libwebsockets.h; sourceTree = "<group>"; };
 		F4C190A417AAABA0005F1F95 /* libwebsockets.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libwebsockets.a; sourceTree = "<group>"; };
-		F4C190A717AAABA0005F1F95 /* libwebsockets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libwebsockets.h; sourceTree = "<group>"; };
-		F4C190A917AAABA0005F1F95 /* libwebsockets.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libwebsockets.a; sourceTree = "<group>"; };
-		F4C190AC17AAABA0005F1F95 /* libwebsockets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libwebsockets.h; sourceTree = "<group>"; };
-		F4C190AF17AAABA0005F1F95 /* libwebsockets.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libwebsockets.a; sourceTree = "<group>"; };
-		F4C190B117AAABA0005F1F95 /* libwebsockets.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libwebsockets.a; sourceTree = "<group>"; };
-		F4C190B417AAABA0005F1F95 /* libwebsockets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libwebsockets.h; sourceTree = "<group>"; };
-		F4C190B617AAABA0005F1F95 /* gettimeofday.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gettimeofday.h; sourceTree = "<group>"; };
-		F4C190B717AAABA0005F1F95 /* websock-w32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "websock-w32.h"; sourceTree = "<group>"; };
-		F4C190B917AAABA0005F1F95 /* websockets.dll */ = {isa = PBXFileReference; lastKnownFileType = file; path = websockets.dll; sourceTree = "<group>"; };
-		F4C190BA17AAABA0005F1F95 /* websockets.lib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = websockets.lib; sourceTree = "<group>"; };
 		F4C190BC17AAABA0005F1F95 /* Android.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Android.mk; sourceTree = "<group>"; };
 		F4C190BE17AAABA0005F1F95 /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
 		F4C190BF17AAABA0005F1F95 /* sqlite3ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3ext.h; sourceTree = "<group>"; };
@@ -1479,7 +1443,6 @@
 		F4E306CF17AC0BB4002A8CD6 /* CCSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSet.h; sourceTree = "<group>"; };
 		F4E306D017AC0BB4002A8CD6 /* CCString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCString.cpp; sourceTree = "<group>"; };
 		F4E306D117AC0BB4002A8CD6 /* CCString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCString.h; sourceTree = "<group>"; };
-		F4E3072017AC0ED6002A8CD6 /* CocosDenshion.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CocosDenshion.xcodeproj; sourceTree = "<group>"; };
 		F4E3072717AC0FC9002A8CD6 /* CCAction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAction.cpp; sourceTree = "<group>"; };
 		F4E3072817AC0FC9002A8CD6 /* CCAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAction.h; sourceTree = "<group>"; };
 		F4E3072917AC0FC9002A8CD6 /* CCActionCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCActionCamera.cpp; sourceTree = "<group>"; };
@@ -2307,7 +2270,6 @@
 		F4C18DB117AAABA0005F1F95 /* CocosDenshion */ = {
 			isa = PBXGroup;
 			children = (
-				F4E3071F17AC0ED6002A8CD6 /* proj.ios */,
 				F4C18DC717AAABA0005F1F95 /* include */,
 				F4C18DCA17AAABA0005F1F95 /* ios */,
 			);
@@ -2756,7 +2718,6 @@
 				F4C18FDA17AAABA0005F1F95 /* chipmunk-docs.html */,
 				F4C18FDB17AAABA0005F1F95 /* include */,
 				F4C18FF717AAABA0005F1F95 /* LICENSE.txt */,
-				F4C18FFA17AAABA0005F1F95 /* proj.ios */,
 				F4C1901617AAABA0005F1F95 /* README.txt */,
 				F4C1901717AAABA0005F1F95 /* src */,
 			);
@@ -2809,23 +2770,6 @@
 				F4C18FEE17AAABA0005F1F95 /* util.h */,
 			);
 			path = constraints;
-			sourceTree = "<group>";
-		};
-		F4C18FFA17AAABA0005F1F95 /* proj.ios */ = {
-			isa = PBXGroup;
-			children = (
-				F4C18FFB17AAABA0005F1F95 /* chipmunk-Prefix.pch */,
-				F4C18FFC17AAABA0005F1F95 /* chipmunk.xcodeproj */,
-			);
-			path = proj.ios;
-			sourceTree = "<group>";
-		};
-		F4C18FFD17AAABA0005F1F95 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				F4C193B217AAABA0005F1F95 /* libchipmunk.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		F4C1901717AAABA0005F1F95 /* src */ = {
@@ -3016,65 +2960,9 @@
 		F4C1909417AAABA0005F1F95 /* libwebsockets */ = {
 			isa = PBXGroup;
 			children = (
-				F4C1909517AAABA0005F1F95 /* android */,
 				F4C190A017AAABA0005F1F95 /* ios */,
-				F4C190A517AAABA0005F1F95 /* mac */,
-				F4C190AA17AAABA0005F1F95 /* tizen */,
-				F4C190B217AAABA0005F1F95 /* win32 */,
 			);
 			path = libwebsockets;
-			sourceTree = "<group>";
-		};
-		F4C1909517AAABA0005F1F95 /* android */ = {
-			isa = PBXGroup;
-			children = (
-				F4C1909617AAABA0005F1F95 /* Android.mk */,
-				F4C1909717AAABA0005F1F95 /* include */,
-				F4C1909917AAABA0005F1F95 /* lib */,
-			);
-			path = android;
-			sourceTree = "<group>";
-		};
-		F4C1909717AAABA0005F1F95 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				F4C1909817AAABA0005F1F95 /* libwebsockets.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		F4C1909917AAABA0005F1F95 /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				F4C1909A17AAABA0005F1F95 /* armeabi */,
-				F4C1909C17AAABA0005F1F95 /* armeabi-v7a */,
-				F4C1909E17AAABA0005F1F95 /* x86 */,
-			);
-			path = lib;
-			sourceTree = "<group>";
-		};
-		F4C1909A17AAABA0005F1F95 /* armeabi */ = {
-			isa = PBXGroup;
-			children = (
-				F4C1909B17AAABA0005F1F95 /* libwebsockets.a */,
-			);
-			path = armeabi;
-			sourceTree = "<group>";
-		};
-		F4C1909C17AAABA0005F1F95 /* armeabi-v7a */ = {
-			isa = PBXGroup;
-			children = (
-				F4C1909D17AAABA0005F1F95 /* libwebsockets.a */,
-			);
-			path = "armeabi-v7a";
-			sourceTree = "<group>";
-		};
-		F4C1909E17AAABA0005F1F95 /* x86 */ = {
-			isa = PBXGroup;
-			children = (
-				F4C1909F17AAABA0005F1F95 /* libwebsockets.a */,
-			);
-			path = x86;
 			sourceTree = "<group>";
 		};
 		F4C190A017AAABA0005F1F95 /* ios */ = {
@@ -3098,109 +2986,6 @@
 			isa = PBXGroup;
 			children = (
 				F4C190A417AAABA0005F1F95 /* libwebsockets.a */,
-			);
-			path = lib;
-			sourceTree = "<group>";
-		};
-		F4C190A517AAABA0005F1F95 /* mac */ = {
-			isa = PBXGroup;
-			children = (
-				F4C190A617AAABA0005F1F95 /* include */,
-				F4C190A817AAABA0005F1F95 /* lib */,
-			);
-			path = mac;
-			sourceTree = "<group>";
-		};
-		F4C190A617AAABA0005F1F95 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				F4C190A717AAABA0005F1F95 /* libwebsockets.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		F4C190A817AAABA0005F1F95 /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				F4C190A917AAABA0005F1F95 /* libwebsockets.a */,
-			);
-			path = lib;
-			sourceTree = "<group>";
-		};
-		F4C190AA17AAABA0005F1F95 /* tizen */ = {
-			isa = PBXGroup;
-			children = (
-				F4C190AB17AAABA0005F1F95 /* include */,
-				F4C190AD17AAABA0005F1F95 /* lib */,
-			);
-			path = tizen;
-			sourceTree = "<group>";
-		};
-		F4C190AB17AAABA0005F1F95 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				F4C190AC17AAABA0005F1F95 /* libwebsockets.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		F4C190AD17AAABA0005F1F95 /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				F4C190AE17AAABA0005F1F95 /* armv7l */,
-				F4C190B017AAABA0005F1F95 /* x86 */,
-			);
-			path = lib;
-			sourceTree = "<group>";
-		};
-		F4C190AE17AAABA0005F1F95 /* armv7l */ = {
-			isa = PBXGroup;
-			children = (
-				F4C190AF17AAABA0005F1F95 /* libwebsockets.a */,
-			);
-			path = armv7l;
-			sourceTree = "<group>";
-		};
-		F4C190B017AAABA0005F1F95 /* x86 */ = {
-			isa = PBXGroup;
-			children = (
-				F4C190B117AAABA0005F1F95 /* libwebsockets.a */,
-			);
-			path = x86;
-			sourceTree = "<group>";
-		};
-		F4C190B217AAABA0005F1F95 /* win32 */ = {
-			isa = PBXGroup;
-			children = (
-				F4C190B317AAABA0005F1F95 /* include */,
-				F4C190B817AAABA0005F1F95 /* lib */,
-			);
-			path = win32;
-			sourceTree = "<group>";
-		};
-		F4C190B317AAABA0005F1F95 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				F4C190B417AAABA0005F1F95 /* libwebsockets.h */,
-				F4C190B517AAABA0005F1F95 /* win32helpers */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		F4C190B517AAABA0005F1F95 /* win32helpers */ = {
-			isa = PBXGroup;
-			children = (
-				F4C190B617AAABA0005F1F95 /* gettimeofday.h */,
-				F4C190B717AAABA0005F1F95 /* websock-w32.h */,
-			);
-			path = win32helpers;
-			sourceTree = "<group>";
-		};
-		F4C190B817AAABA0005F1F95 /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				F4C190B917AAABA0005F1F95 /* websockets.dll */,
-				F4C190BA17AAABA0005F1F95 /* websockets.lib */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -3623,22 +3408,6 @@
 			path = cocoa;
 			sourceTree = "<group>";
 		};
-		F4E3071F17AC0ED6002A8CD6 /* proj.ios */ = {
-			isa = PBXGroup;
-			children = (
-				F4E3072017AC0ED6002A8CD6 /* CocosDenshion.xcodeproj */,
-			);
-			path = proj.ios;
-			sourceTree = "<group>";
-		};
-		F4E3072117AC0ED6002A8CD6 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				F4E3072517AC0ED7002A8CD6 /* libCocosDenshion.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		F4E3072617AC0FC9002A8CD6 /* actions */ = {
 			isa = PBXGroup;
 			children = (
@@ -3835,39 +3604,12 @@
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = F4C18FFD17AAABA0005F1F95 /* Products */;
-					ProjectRef = F4C18FFC17AAABA0005F1F95 /* chipmunk.xcodeproj */;
-				},
-				{
-					ProductGroup = F4E3072117AC0ED6002A8CD6 /* Products */;
-					ProjectRef = F4E3072017AC0ED6002A8CD6 /* CocosDenshion.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* BookBattle */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		F4C193B217AAABA0005F1F95 /* libchipmunk.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libchipmunk.a;
-			remoteRef = F4C193B117AAABA0005F1F95 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F4E3072517AC0ED7002A8CD6 /* libCocosDenshion.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libCocosDenshion.a;
-			remoteRef = F4E3072417AC0ED7002A8CD6 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1D60588D0D05DD3D006BFB54 /* Resources */ = {
@@ -3959,8 +3701,6 @@
 				F4C1938317AAABA0005F1F95 /* Makefile.am in Resources */,
 				F4C1938B17AAABA0005F1F95 /* Makefile.am in Resources */,
 				F4C1939517AAABA0005F1F95 /* Makefile.am in Resources */,
-				F4C1939A17AAABA0005F1F95 /* Android.mk in Resources */,
-				F4C193A217AAABA0005F1F95 /* websockets.dll in Resources */,
 				F4C193A417AAABA0005F1F95 /* Android.mk in Resources */,
 				F4C193A517AAABA0005F1F95 /* sqlite3.dll in Resources */,
 				F4E3078A17AC1C26002A8CD6 /* battlefield2.png in Resources */,
