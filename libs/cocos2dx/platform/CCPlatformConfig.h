@@ -44,6 +44,9 @@ Config of cocos2d-x project, per target platform.
 #define CC_PLATFORM_BLACKBERRY         7
 #define CC_PLATFORM_MAC                8
 #define CC_PLATFORM_NACL               9
+#define CC_PLATFORM_EMSCRIPTEN        10
+#define CC_PLATFORM_TIZEN             11
+#define CC_PLATFORM_QT5               12
 
 // Determine target platform by compile environment macro.
 #define CC_TARGET_PLATFORM             CC_PLATFORM_UNKNOWN
@@ -102,6 +105,23 @@ Config of cocos2d-x project, per target platform.
     #define CC_TARGET_PLATFORM     CC_PLATFORM_NACL
 #endif
 
+// Emscripten
+#if defined(EMSCRIPTEN)
+    #undef  CC_TARGET_PLATFORM
+    #define CC_TARGET_PLATFORM     CC_PLATFORM_EMSCRIPTEN
+#endif
+
+// tizen
+#if defined(TIZEN)
+    #undef  CC_TARGET_PLATFORM
+    #define CC_TARGET_PLATFORM     CC_PLATFORM_TIZEN
+#endif
+
+// qt5
+#if defined(CC_TARGET_QT5)
+    #undef  CC_TARGET_PLATFORM
+    #define CC_TARGET_PLATFORM     CC_PLATFORM_QT5
+#endif
 
 //////////////////////////////////////////////////////////////////////////
 // post configure

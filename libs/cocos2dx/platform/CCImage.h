@@ -27,6 +27,14 @@ THE SOFTWARE.
 
 #include "cocoa/CCObject.h"
 
+// premultiply alpha, or the effect will wrong when want to use other pixel format in Texture2D,
+// such as RGB888, RGB5A1
+#define CC_RGB_PREMULTIPLY_ALPHA(vr, vg, vb, va) \
+    (unsigned)(((unsigned)((unsigned char)(vr) * ((unsigned char)(va) + 1)) >> 8) | \
+    ((unsigned)((unsigned char)(vg) * ((unsigned char)(va) + 1) >> 8) << 8) | \
+    ((unsigned)((unsigned char)(vb) * ((unsigned char)(va) + 1) >> 8) << 16) | \
+    ((unsigned)(unsigned char)(va) << 24))
+
 NS_CC_BEGIN
 
 /**
@@ -34,34 +42,43 @@ NS_CC_BEGIN
  * @{
  */
 
-class CC_DLL CCImage : public CCObject
+class CC_DLL Image : public Object
 {
 public:
-    CCImage();
-    ~CCImage();
+    friend class TextureCache;
+    
+    Image();
+    virtual ~Image();
 
-    typedef enum
+    /** Supported formats for Image */
+    enum class Format
     {
-        kFmtJpg = 0,
-        kFmtPng,
-        kFmtTiff,
-        kFmtWebp,
-        kFmtRawData,
-        kFmtUnKnown
-    }EImageFormat;
+        //! JPEG
+        JPG,
+        //! PNG
+        PNG,
+        //! TIFF
+        TIFF,
+        //! WebP
+        WEBP,
+        //! Raw Data
+        RAW_DATA,
+        //! Unknown format
+        UNKOWN
+    };
 
-    typedef enum
+    enum class TextAlign
     {
-        kAlignCenter        = 0x33, ///< Horizontal center and vertical center.
-        kAlignTop           = 0x13, ///< Horizontal center and vertical top.
-        kAlignTopRight      = 0x12, ///< Horizontal right and vertical top.
-        kAlignRight         = 0x32, ///< Horizontal right and vertical center.
-        kAlignBottomRight   = 0x22, ///< Horizontal right and vertical bottom.
-        kAlignBottom        = 0x23, ///< Horizontal center and vertical bottom.
-        kAlignBottomLeft    = 0x21, ///< Horizontal left and vertical bottom.
-        kAlignLeft          = 0x31, ///< Horizontal left and vertical center.
-        kAlignTopLeft       = 0x11, ///< Horizontal left and vertical top.
-    }ETextAlign;
+        CENTER        = 0x33, ///< Horizontal center and vertical center.
+        TOP           = 0x13, ///< Horizontal center and vertical top.
+        TOP_RIGHT     = 0x12, ///< Horizontal right and vertical top.
+        RIGHT         = 0x32, ///< Horizontal right and vertical center.
+        BOTTOM_RIGHT = 0x22, ///< Horizontal right and vertical bottom.
+        BOTTOM        = 0x23, ///< Horizontal center and vertical bottom.
+        BOTTOM_LEFT  = 0x21, ///< Horizontal left and vertical bottom.
+        LEFT          = 0x31, ///< Horizontal left and vertical center.
+        TOP_LEFT      = 0x11, ///< Horizontal left and vertical top.
+    };
     
     /**
     @brief  Load the image from the specified path. 
@@ -69,16 +86,7 @@ public:
     @param imageType the type of image, currently only supporting two types.
     @return  true if loaded correctly.
     */
-    bool initWithImageFile(const char * strPath, EImageFormat imageType = kFmtPng);
-
-    /*
-     @brief The same result as with initWithImageFile, but thread safe. It is caused by
-            loadImage() in CCTextureCache.cpp.
-     @param fullpath  full path of the file.
-     @param imageType the type of image, currently only supporting two types.
-     @return  true if loaded correctly.
-     */
-    bool initWithImageFileThreadSafe(const char *fullpath, EImageFormat imageType = kFmtPng);
+    bool initWithImageFile(const char * strPath, Format imageType = Format::PNG);
 
     /**
     @brief  Load image from stream buffer.
@@ -91,10 +99,13 @@ public:
     */
     bool initWithImageData(void * pData, 
                            int nDataLen, 
-                           EImageFormat eFmt = kFmtUnKnown,
+                           Format eFmt = Format::UNKOWN,
                            int nWidth = 0,
                            int nHeight = 0,
                            int nBitsPerComponent = 8);
+
+    // @warning kFmtRawData only support RGBA8888
+    bool initWithRawData(void *pData, int nDatalen, int nWidth, int nHeight, int nBitsPerComponent, bool bPreMulti);
 
     /**
     @brief    Create image with specified string.
@@ -109,46 +120,88 @@ public:
         const char *    pText, 
         int             nWidth = 0, 
         int             nHeight = 0,
-        ETextAlign      eAlignMask = kAlignCenter,
+        TextAlign       eAlignMask = TextAlign::CENTER,
         const char *    pFontName = 0,
         int             nSize = 0);
-
-    unsigned char *   getData()               { return m_pData; }
-    int         getDataLen()            { return m_nWidth * m_nHeight; }
-
-    bool hasAlpha()                     { return m_bHasAlpha; }
-    bool isPremultipliedAlpha()         { return m_bPreMulti; }
+    
+    #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    
+        bool initWithStringShadowStroke(
+                                            const char *    pText,
+                                            int             nWidth      = 0,
+                                            int             nHeight     = 0,
+                                        TextAlign       eAlignMask  = TextAlign::CENTER,
+                                            const char *    pFontName   = 0,
+                                            int             nSize       = 0,
+                                            float           textTintR   = 1,
+                                            float           textTintG   = 1,
+                                            float           textTintB   = 1,
+                                            bool shadow                 = false,
+                                            float shadowOffsetX         = 0.0,
+                                            float shadowOffsetY         = 0.0,
+                                            float shadowOpacity         = 0.0,
+                                            float shadowBlur            = 0.0,
+                                            bool  stroke                =  false,
+                                            float strokeR               = 1,
+                                            float strokeG               = 1,
+                                            float strokeB               = 1,
+                                            float strokeSize            = 1
+                                        
+                                        );
+    
+    #endif
+    
 
     /**
-    @brief    Save CCImage data to the specified file, with specified format.
-    @param    pszFilePath        the file's absolute path, including file suffix.
-    @param    bIsToRGB        whether the image is saved as RGB format.
-    */
+     @brief    Save Image data to the specified file, with specified format.
+     @param    pszFilePath        the file's absolute path, including file suffix.
+     @param    bIsToRGB        whether the image is saved as RGB format.
+     */
     bool saveToFile(const char *pszFilePath, bool bIsToRGB = true);
+    
+    // Getters
+    inline unsigned char *   getData()               { return _data; }
+    inline int               getDataLen()            { return _width * _height; }
 
-    CC_SYNTHESIZE_READONLY(unsigned short,   m_nWidth,       Width);
-    CC_SYNTHESIZE_READONLY(unsigned short,   m_nHeight,      Height);
-    CC_SYNTHESIZE_READONLY(int,     m_nBitsPerComponent,   BitsPerComponent);
+    inline bool hasAlpha()                     { return _hasAlpha;   }
+    inline bool isPremultipliedAlpha()         { return _preMulti;   }
 
+    inline unsigned short getWidth() { return _width; };
+    inline unsigned short getHeight() { return _height; };
+    inline int getBitsPerComponent() { return _bitsPerComponent; };
+    //
+    
 protected:
-    bool _initWithJpgData(void *pData, int nDatalen);
-    bool _initWithPngData(void *pData, int nDatalen);
-    bool _initWithTiffData(void *pData, int nDataLen);
-    bool _initWithWebpData(void *pData, int nDataLen);
-    // @warning kFmtRawData only support RGBA8888
-    bool _initWithRawData(void *pData, int nDatalen, int nWidth, int nHeight, int nBitsPerComponent);
+    bool initWithJpgData(void *pData, int nDatalen);
+    bool initWithPngData(void *pData, int nDatalen);
+    bool initWithTiffData(void *pData, int nDataLen);
+    bool initWithWebpData(void *pData, int nDataLen);
 
-    bool _saveImageToPNG(const char *pszFilePath, bool bIsToRGB = true);
-    bool _saveImageToJPG(const char *pszFilePath);
+    bool saveImageToPNG(const char *pszFilePath, bool bIsToRGB = true);
+    bool saveImageToJPG(const char *pszFilePath);
 
-    unsigned char *m_pData;
-    bool m_bHasAlpha;
-    bool m_bPreMulti;
+    unsigned short   _width;
+    unsigned short   _height;
+    int     _bitsPerComponent;
+    
+    unsigned char *_data;
+    bool _hasAlpha;
+    bool _preMulti;
+
 
 private:
     // noncopyable
-    CCImage(const CCImage&    rImg);
-    CCImage & operator=(const CCImage&);
+    Image(const Image&    rImg);
+    Image & operator=(const Image&);
+    
+    /*
+     @brief The same result as with initWithImageFile, but thread safe. It is caused by
+     loadImage() in TextureCache.cpp.
+     @param fullpath  full path of the file.
+     @param imageType the type of image, currently only supporting two types.
+     @return  true if loaded correctly.
+     */
+    bool initWithImageFileThreadSafe(const char *fullpath, Format imageType = Format::PNG);
 };
 
 // end of platform group

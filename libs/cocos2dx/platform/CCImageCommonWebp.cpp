@@ -24,7 +24,7 @@
 
 #include "platform/CCImage.h"
 #include "textures/CCTexture2D.h"
-#ifdef __native_client__
+#if defined(__native_client__) || defined(EMSCRIPTEN)
 // TODO(sbc): I'm pretty sure all platforms should be including
 // webph headers in this way.
 #include "webp/decode.h"
@@ -38,7 +38,7 @@
 
 NS_CC_BEGIN
 
-bool CCImage::_initWithWebpData(void *pData, int nDataLen)
+bool Image::initWithWebpData(void *pData, int nDataLen)
 {
 	bool bRet = false;
 	do
@@ -49,23 +49,23 @@ bool CCImage::_initWithWebpData(void *pData, int nDataLen)
         if (config.input.width == 0 || config.input.height == 0) break;
         
         config.output.colorspace = MODE_RGBA;
-        m_nBitsPerComponent = 8;
-        m_nWidth    = config.input.width;
-        m_nHeight   = config.input.height;
-        m_bHasAlpha = true;
+        _bitsPerComponent = 8;
+        _width    = config.input.width;
+        _height   = config.input.height;
+        _hasAlpha = true;
         
-        int bufferSize = m_nWidth * m_nHeight * 4;
-        m_pData = new unsigned char[bufferSize];
+        int bufferSize = _width * _height * 4;
+        _data = new unsigned char[bufferSize];
         
-        config.output.u.RGBA.rgba = (uint8_t*)m_pData;
-        config.output.u.RGBA.stride = m_nWidth * 4;
+        config.output.u.RGBA.rgba = (uint8_t*)_data;
+        config.output.u.RGBA.stride = _width * 4;
         config.output.u.RGBA.size = bufferSize;
         config.output.is_external_memory = 1;
 
         if (WebPDecode((uint8_t*)pData, nDataLen, &config) != VP8_STATUS_OK)
         {
-            delete []m_pData;
-            m_pData = NULL;
+            delete []_data;
+            _data = NULL;
             break;
         }
                
